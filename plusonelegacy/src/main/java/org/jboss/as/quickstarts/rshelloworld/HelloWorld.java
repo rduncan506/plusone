@@ -38,32 +38,9 @@ public class HelloWorld {
     HelloService helloService;
 
     @GET
-    @Path("/json")
-    @Produces({ "application/json" })
-    public String getHelloWorldJSON() {
-        return "{\"result\":\"" + helloService.createHelloMessage("World") + "\"}";
-    }
-
-    @GET
-    @Path("/xml")
-    @Produces({ "application/xml" })
-    public String getHelloWorldXML() {
-        return "<xml><result>" + helloService.createHelloMessage("World") + "</result></xml>";
-    }
-
-    @GET
-    @Path("/text")
+    @Path("/hello")
     @Produces({ "text/plain" })
     public String getHelloWorldText() {
-        //String text = "World";
-/*
-        try {
-            text = "from " + InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return helloService.createHelloMessage(text);
-*/
         return helloService.createHelloMessage("from " + System.getenv().getOrDefault("HOSTNAME", "unknown"));
     }
 

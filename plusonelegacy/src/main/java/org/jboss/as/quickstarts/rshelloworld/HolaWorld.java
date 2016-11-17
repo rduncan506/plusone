@@ -41,15 +41,6 @@ public class HolaWorld {
     @Path("/hola")
     @Produces({ "text/plain" })
     public String getHolaWorldText() {
-/*
-        String text = "World";
-        try {
-            text = "de " + InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        return holaService.createHolaMessage(text);
-*/
         return holaService.createHolaMessage("de " + System.getenv().getOrDefault("HOSTNAME", "unknown"));
     }
 

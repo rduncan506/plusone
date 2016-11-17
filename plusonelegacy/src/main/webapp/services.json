@@ -1,17 +1,19 @@
 {
   "hello-service": {
-    "url": "http://localhost:8080/jboss-helloworld-rs/rest/text"
+    "url": "http://localhost:8080/plusone-legacy-application/rest/hello"
   },
   "hola-service": {
-    "url": "http://localhost:8080/jboss-helloworld-rs/rest/hola"
-  },
-  "hola-container-service": {
-    "url": "http://hola-helloworld-msa.rhel-cluster.192.168.223.46.xip.io/api/hola"
+    "url": "http://hola-helloworld-msa.rhel-cluster.192.168.223.46.xip.io/api/hola",
+    "url-legacy": "http://localhost:8080/plusone-legacy-application/rest/hola",
+    "url-move": "http://hola-helloworld-msa.rhel-cluster.192.168.223.46.xip.io/api/hola"
   },
   "bonjour-service": {
     "url": "http://bonjour-helloworld-msa.rhel-cluster.192.168.223.46.xip.io/api/bonjour"
   },
   "ola-service": {
-    "url": "http://ola-helloworld-msa.rhel-cluster.192.168.223.46.xip.io/api/ola"
+    "url": "http://aloha-helloworld-msa.rhel-cluster.192.168.223.46.xip.io/api/aloha",
+    "url-ola": "http://ola-helloworld-msa.rhel-cluster.192.168.223.46.xip.io/api/ola",
+    "url-aloha": "http://aloha-helloworld-msa.rhel-cluster.192.168.223.46.xip.io/api/aloha"
   }
 }
+

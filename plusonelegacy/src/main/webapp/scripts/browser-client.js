@@ -41,11 +41,11 @@ function browser_query() {
 
 $(document).ready(function() {
     //$.getJSON(window.location.pathname + 'services.json').done(function(json) {
-    $.getJSON('http://localhost:8080/jboss-helloworld-rs/services.json').done(function(json) {
+    $.getJSON(window.location.protocol+'//'+window.location.host+'/services.json').done(function(json) {
         services = json;
         browser_query();
     }).fail(function(jqxhr, textStatus, error) {
         var err = textStatus + ", " + error;
-        alert("Request Failed: " + err)
+        alert("Unable to locate services.json. Request Failed: " + err)
     });
 });
