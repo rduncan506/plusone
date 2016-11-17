@@ -1,0 +1,9 @@
+# Here are variables related to the standalone Wildfly installation
+wildfly_home: /opt/testwildfly
+wildfly_base_filename: wildfly-10.0.0.Final
+wildfly_download_url: http://download.jboss.org/wildfly/10.0.0.Final/{{wildfly_base_filename}}.zip
+wildfly_standalone_start_cmd: "{{wildfly_home}}/{{wildfly_base_filename}}/bin/standalone.sh"
+startcmd: /opt/testwildfly/wildfly-10.0.0.Final/bin/standalone.sh
+
+http_port: 8080
+https_port: 8443

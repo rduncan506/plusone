@@ -1,0 +1,18 @@
+---
+
+- name: Check if the openshift client tools are installed - {{oc_command}}
+  stat: path="{{oc_command}}"
+  register: p
+- debug: msg="oc command exists - {{oc_command}}"
+  when: p.stat.isfile is defined and p.stat.isfile
+
+- name: Download and extract oc CLI - {{oc_download_url}}
+  unarchive: 
+    src={{oc_download_url}}
+    dest={{oc_install}}
+    remote_src=yes
+  when: not p.stat.exists
+  
+- name: Install OpenShift Origin with 'oc cluster up'
+  shell: '{{oc_command}} cluster up --create-machine=true --use-existing-config --host-data-dir={{oc_data_dir}} --image=registry.access.redhat.com/openshift3/ose --version=latest'
+  
