@@ -16,7 +16,22 @@
 #    oc_download_url: "https://github.com/openshift/origin/releases/download/v1.2.2/{{oc_archive_name}}.tar.gz"
     oc_command: "{{oc_home}}/oc"
     ocp_data_dir: "{{oc_install}}/data"
+    ocp_username: "developer"
+    ocp_password: "developer"
+    openshift: 192.168.223.43:8443
+    project_name: helloworld-msa
+    msa_home: "/home/rduncan/redhat/projects/plusonenew/plusone/plusonemsa"
+    domain: "192.168.223.43.xip.io"
     
+    # Project definition - You don't need to change anything here
+    msa_projects:
+      - name: hola
+        project: java
+      - name: bonjour
+        project: node
+      - name: ola
+        project: java
+
   roles:
     - install-msa
  

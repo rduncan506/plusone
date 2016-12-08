@@ -14,5 +14,61 @@
   when: not p.stat.exists
   
 - name: Install OpenShift Origin with 'oc cluster up'
-  shell: '{{oc_command}} cluster up --create-machine=true --use-existing-config --host-data-dir={{oc_data_dir}} --image=registry.access.redhat.com/openshift3/ose --version=latest'
-  
+  shell: '{{oc_command}} cluster up --host-data-dir={{ocp_data_dir}} --image=registry.access.redhat.com/openshift3/ose --version=latest'
+
+- name: Login in OpenShift
+  shell: "{{oc_command}} login --insecure-skip-tls-verify=true -u {{ ocp_username }} -p {{ ocp_password }} {{ openshift }}"
+  tags:
+    - openshift
+
+- name: Create a new OpenShift project
+  shell: "{{oc_command}} new-project {{ project_name }}"
+  register: command_result
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+
+- name: Define OpenShift project
+  shell: "{{oc_command}} project {{ project_name }}"
+  tags:
+    - openshift
+
+- name: Create OpenShift new-build
+  shell: "{{oc_command}} new-build --binary --name={{ item.name }} -l app={{ item.name }}"
+  register: command_result
+  with_items: "{{ msa_projects }}"
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+
+# Pause for 10 seconds for the repository to start properly
+- pause:
+    seconds: 10
+
+- name: Build and Deploy OpenShift images from the sources
+  shell: "{{oc_command}} start-build {{ item.name }} --from-dir={{ msa_home }}/{{ item.name }} --follow"
+  with_items: "{{ msa_projects }}"
+  tags:
+    - openshift
+    - build
+
+- name: Create OpenShift applications from previously created images
+  shell: "{{oc_command}} new-app {{ item.name }} -l app={{ item.name }}"
+  register: command_result
+  with_items: "{{ msa_projects }}"
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+
+- name: Expose OpenShift applications
+  shell: "{{oc_command}} expose service {{ item.name }} --hostname={{ item.name }}-{{ project_name }}.{{ domain }}"
+  register: command_result
+  with_items: "{{ msa_projects }}"
+  failed_when: "'exists' not in command_result.stderr and command_result.rc != 0"
+  changed_when: "'exists' not in command_result.stderr"
+  tags:
+    - openshift
+

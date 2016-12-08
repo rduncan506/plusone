@@ -8,4 +8,4 @@ ENV ZIPKIN_SERVER_URL http://zipkin-query:9411
 
 EXPOSE 8080
 
-ADD target/ola.jar /deployments/
+ADD ola.jar /deployments/
