@@ -14,7 +14,7 @@
   when: not p.stat.exists
   
 - name: Install OpenShift Origin with 'oc cluster up'
-  shell: '{{oc_command}} cluster up --host-data-dir={{ocp_data_dir}} --image=registry.access.redhat.com/openshift3/ose --version=latest'
+  shell: '{{oc_command}} cluster up --host-data-dir={{ocp_data_dir}} --image=registry.access.redhat.com/openshift3/ose --version={{ocp_version}}'
 
 - name: Login in OpenShift
   shell: "{{oc_command}} login --insecure-skip-tls-verify=true -u {{ ocp_username }} -p {{ ocp_password }} {{ openshift }}"
@@ -43,9 +43,10 @@
   tags:
     - openshift
 
-# Pause for 10 seconds for the repository to start properly
-- pause:
-    seconds: 10
+# Pause for 20 seconds for the registry to start properly
+- name: Wait a bit for the registry to initialize
+  pause:
+    seconds: 20
 
 - name: Build and Deploy OpenShift images from the sources
   shell: "{{oc_command}} start-build {{ item.name }} --from-dir={{ msa_home }}/{{ item.name }} --follow"

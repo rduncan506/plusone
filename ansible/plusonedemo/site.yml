@@ -4,19 +4,10 @@
 - hosts: legacy-servers  
   remote_user: rduncan 
   become: no
-  environment:
-    JBOSS_PIDFILE: "{{wildfly_home}}/{{wildfly_base_filename}}/standalone/log/wildfly.pid"
 
-  vars:
-    tmp_dir: /tmp
-    wildfly_home: /opt/testwildfly
-    wildfly_download_url: http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.zip
-    wildfly_base_filename: wildfly-10.0.0.Final
-    wildfly_standalone_start_cmd: "nohup {{wildfly_home}}/{{wildfly_base_filename}}/bin/standalone.sh &> {{wildfly_home}}/nohup.out&"
-    wildfly_deploy_path: "{{wildfly_home}}/{{wildfly_base_filename}}/standalone/deployments"
-    legacy_app_url: https://github.com/rduncan506/plusone/raw/master/plusonelegacy/bin/plusone-legacy-application.war
-    legacy_app_deployment: plusone-legacy-application.war
-    legacy_app_war: plusone-legacy-application.war
+  vars_files:
+    - group_vars/user-vars.yml
+    - group_vars/runtime-vars.yml
     
   roles:
     - wildfly-standalone

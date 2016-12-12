@@ -1,0 +1,9 @@
+    tmp_dir: /tmp
+
+    plusone_home: "/home/rduncan/redhat/projects/plusonenew/plusone"
+
+    wildfly_home: /opt/testwildfly
+
+    oc_install: /opt/testopenshift
+
+
