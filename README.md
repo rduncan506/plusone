@@ -48,11 +48,11 @@ To install both the legacy and OpenShift portions of the demo, some information 
 
 	$ vi <plusoneROOT\>/ansible/plusonedemo/hosts
 
->[legacy-servers]
->***192.168.223.43***
+> [legacy-servers]
+> ***192.168.223.43***
 
->[ocp-servers]
->***192.168.223.43***
+> [ocp-servers]
+> ***192.168.223.43***
 
 Now modify the following to match your environment
 
