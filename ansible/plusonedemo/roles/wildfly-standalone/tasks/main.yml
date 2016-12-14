@@ -16,15 +16,13 @@
 - name: Start WildFly - {{wildfly_standalone_start_cmd}}
   shell: '{{wildfly_standalone_start_cmd}}'
 
-- name: Download Legacy binary
-  get_url:
-    url: '{{legacy_app_url}}'
-    dest: '{{tmp_dir}}'
-
-- name: Deploy the legacy application - url-{{tmp_dir}}/{{legacy_app_war}}, deployment-{{legacy_app_deployment}}, deploy_path-{{wildfly_deploy_path}}, src={{legacy_app_url}}
-  jboss:  src={{tmp_dir}}/{{legacy_app_war}}
+- name: Deploy the legacy application
+  jboss:  src={{legacy_app_url}}
           deployment={{legacy_app_deployment}} 
           deploy_path={{wildfly_deploy_path}} 
           state=present
-          
-- file: path={{tmp_dir}}/{{legacy_app_war}} state=absent
+ 
+- copy:
+    src: "{{plusone_home}}/plusonelegacy/src/main/webapp/services.json"
+    dest: "{{wildfly_home}}/{{wildfly_base_filename}}/welcome-content"
+    mode: 0644

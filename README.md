@@ -3,17 +3,17 @@
 
 ## Purpose
 
-The purpose of this is to demonstrate the introduction of an OpenShift containerized implementation into an existing legacy infrastructure.  
+The purpose of this is to demonstrate the introduction of an OpenShift containerized implementation into an existing legacy infrastructure.   We will illustrate how to continue running your current legacy applications as they are while adding on to them and migrating portions over to a new containerized OpenShift environment.
 
-The legacy application used in this demo is a simple web application packaged as a war having a front end calling restful webservices to display various 'hello world' messages.
+In order to achieve this, we will first install Wildfly/JBoss and deploy a simple web application packaged as a war.  This application has an HTML/JavaScript front end calling restful Java WebServices to display various 'hello world' messages.
 
 ![Legacy Application](./plusonelegacy/src/main/webapp/images/graph1.png  "Legacy Application")
 
-We first introduce new services running in OpenShift and integrate them in to the existing legacy application.
+Once the legacy application is up and running, we will introduce new services implemented as Java services and Bonjour services.  These new services will be deployed in an OpenShift and integrated them in to the front end of the existing legacy application as shown below.
 
 ![Hybrid Application](./plusonelegacy/src/main/webapp/images/graph2.png  "Hybrid Application")
 
-The final example is to move one of the legacy services to OpenShift and modify the front end application to use the new service.
+Now that we have the two technologies up and running side by side, we can start to migrate existing legacy portions of the application over to OpenShift.  In this case, we can continue to run the old legacy services in parallel until all consumers have migrated over to the new OpenShift service and then decommission it.
 
 ![Hybrid Application](./plusonelegacy/src/main/webapp/images/graph3.png  "Hybrid Application")
 
@@ -41,20 +41,70 @@ Clone the github repository
 	$ git clone https://github.com/rduncan506/plusone.git
 	
 ## Option 1 - From Binaries
-To make it easier and remove dependencies on build tools, all source has been compiled/packaged and has been downloaded when cloning the github repository in the previous step.
+To make it easier and remove dependencies on build tools, all source has been compiled/packaged and has been downloaded when cloning the github repository above.
 
 ### Step 1 - Configure Installation
-Edit <plusoneROOT\>/ansible/plusonedemo/hosts
+To install both the legacy and OpenShift portions of the demo, some information is required.  First edit the hosts files and set the IP addresses for the hosts to install the two applications.
 
-Edit <plusoneROOT\>/ansible/plusonedemo/site.yaml
+	$ vi <plusoneROOT\>/ansible/plusonedemo/hosts
 
+>[legacy-servers]
+>***192.168.223.43***
+
+>[ocp-servers]
+>***192.168.223.43***
+
+Now modify the following to match your environment
+
+	$ vi <plusoneROOT\>/ansible/plusonedemo/group_vars/user-vars.yaml
+
+>  # A temporary directory for any required temporary downloads
+>  # Must be a directory with read/write permissions
+>  tmp_dir: ***/tmp***
+>	
+>  # The location of the cloned PlusOne github repository
+>  # Must be a directory with read/write permissions
+>  plusone_home: ***/home/user/development/plusone***
+>	
+>  # The location to install wildfly
+>  # Must be a directory with read/write permissions
+>  wildfly_home: ***/opt/testwildfly***
+>	
+>  # The location to install the OpenShift Client tools (oc)
+>  # Must be a directory with read/write permissions
+>  oc_install: ***/opt/testopenshift***
+	
 ### Step 2 - Run Ansible to Install the Legacy Application
+In order to make the install quick and easy, the following Ansible Playbook can be executed to get the legacy application up and running.
+
+The Playbook will perform the following
+1.   Check if Wildfly exists at the location given above, if so, step 2 is skipped.
+2.   Download and install Wildfly
+3.   Deploy the precompiled war file downloaded as part of the git clone above (<plusoneROOT\>/plusonelegacy/bin/ plusone-legacy-application.war)
+
 	$ cd <plusoneROOT\>/ansible/plusonedemo
 	$ ansible-playbook -i hosts legacy.yml
 
+Once the script has completed the Legacy Application will be accessible via <http://legacy-host:8080/plusone-legacy-application/index-legacy.html>
+
+Also, you may access the Wildfly admin console via <http://legacy-host:9990> and follow the instructions there to add users to enable the console.
+
 ### Step 3 - Run Ansible to Install OpenShift Services
+In this demo, we will be using ```oc cluster up``` <https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#overview>.
+
+**Please read <https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#linux> and ensure all steps prior to the ```oc cluster up``` command have been performed**
+
+The Playbook will perform the following tasks
+1.  Check if the ```oc``` exists in the previously configured location, if so, step to is skipped
+2.  Download and install the ```oc``` command
+3.  Download and start the OpenShift docker image
+4.  Deploy 3 pre-built MSA services from <plusoneROOT\>/plusonemsa/* using the Dockerfiles and binaries contained within
+5.  Expose the services so they are accessible
+
 	$ cd <plusoneROOT\>/ansible/plusonedemo
 	$ ansible-playbook -i hosts openshift.yml
+
+While the script is running, the OpenShift console will be accessible once the ```oc cluster up``` command has completed.  It can be accessed at <http://ocp-host:8443/console> with user: developer and password: developer.  As the ansible script progresses, a helloworld-msa project will appear. 
 
 ## Option 2 - From Source
 ###Additional Prerequisites

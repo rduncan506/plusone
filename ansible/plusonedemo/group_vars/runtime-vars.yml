@@ -2,7 +2,8 @@
     wildfly_base_filename: wildfly-10.0.0.Final
     wildfly_standalone_start_cmd: "nohup {{wildfly_home}}/{{wildfly_base_filename}}/bin/standalone.sh &> {{wildfly_home}}/nohup.out&"
     wildfly_deploy_path: "{{wildfly_home}}/{{wildfly_base_filename}}/standalone/deployments"
-    legacy_app_url: https://github.com/rduncan506/plusone/raw/master/plusonelegacy/bin/plusone-legacy-application.war
+    legacy_app_url: "{{plusone_home}}/plusonelegacy/bin/plusone-legacy-application.war"
+#  legacy_app_url: https://github.com/rduncan506/plusone/raw/master/plusonelegacy/bin/plusone-legacy-application.war
     legacy_app_deployment: plusone-legacy-application.war
     legacy_app_war: plusone-legacy-application.war
 
