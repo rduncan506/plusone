@@ -24,10 +24,8 @@ Now that we have the two technologies up and running side by side, we can start 
 	- version >= 1.8
 - **Docker**
 	- version >= 10 <https://docs.docker.com/engine/installation/>
-	- add the following to /etc/sysconfig/docker
-```sh
-INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'
-```
+	- add ```INSECURE_REGISTRY='--insecure-registry 172.30.0.0/16'``` to /etc/sysconfig/docker
+
 - **Ansible**
 	- version >= 2.3
 	*At time of writing (2016/11/28), some Linux distro's had version 2.2 in their repositories and in order to get 2.3 you have to run from source* <http://docs.ansible.com/ansible/intro_installation.html#running-from-source>.
@@ -48,11 +46,13 @@ To install both the legacy and OpenShift portions of the demo, some information 
 
 	$ vi <plusoneROOT\>/ansible/plusonedemo/hosts
 
-> [legacy-servers]
-> ***192.168.223.43***
+>  [legacy-servers]
 
-> [ocp-servers]
-> ***192.168.223.43***
+>  ***192.168.223.43***
+
+>  [ocp-servers]
+
+>  ***192.168.223.43***
 
 Now modify the following to match your environment
 
