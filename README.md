@@ -78,6 +78,7 @@ Now modify the following to match your environment
 In order to make the install quick and easy, the following Ansible Playbook can be executed to get the legacy application up and running.
 
 The Playbook will perform the following
+
 1.   Check if Wildfly exists at the location given above, if so, step 2 is skipped.
 2.   Download and install Wildfly
 3.   Deploy the precompiled war file downloaded as part of the git clone above (<plusoneROOT\>/plusonelegacy/bin/ plusone-legacy-application.war)
@@ -95,6 +96,7 @@ In this demo, we will be using ```oc cluster up``` <https://github.com/openshift
 **Please read <https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#linux> and ensure all steps prior to the ```oc cluster up``` command have been performed**
 
 The Playbook will perform the following tasks
+
 1.  Check if the ```oc``` exists in the previously configured location, if so, step to is skipped
 2.  Download and install the ```oc``` command
 3.  Download and start the OpenShift docker image
