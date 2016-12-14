@@ -56,7 +56,9 @@ To install both the legacy and OpenShift portions of the demo, some information 
 
 Now modify the following to match your environment
 
-	$ vi <plusoneROOT\>/ansible/plusonedemo/group_vars/user-vars.yaml
+```sh 
+$ vi <plusoneROOT\>/ansible/plusonedemo/group_vars/user-vars.yaml
+```
 
 >  # A temporary directory for any required temporary downloads
 >  # Must be a directory with read/write permissions
@@ -81,10 +83,12 @@ The Playbook will perform the following
 
 1.   Check if Wildfly exists at the location given above, if so, step 2 is skipped.
 2.   Download and install Wildfly
-3.   Deploy the precompiled war file downloaded as part of the git clone above (<plusoneROOT\>/plusonelegacy/bin/ plusone-legacy-application.war)
+3.   Deploy the precompiled war file downloaded as part of the git clone above (<plusoneROOT\>/plusonelegacy/bin/plusone-legacy-application.war)
 
+```sh
 	$ cd <plusoneROOT\>/ansible/plusonedemo
 	$ ansible-playbook -i hosts legacy.yml
+```
 
 Once the script has completed the Legacy Application will be accessible via <http://legacy-host:8080/plusone-legacy-application/index-legacy.html>
 
@@ -103,8 +107,10 @@ The Playbook will perform the following tasks
 4.  Deploy 3 pre-built MSA services from <plusoneROOT\>/plusonemsa/* using the Dockerfiles and binaries contained within
 5.  Expose the services so they are accessible
 
+```sh
 	$ cd <plusoneROOT\>/ansible/plusonedemo
 	$ ansible-playbook -i hosts openshift.yml
+```
 
 While the script is running, the OpenShift console will be accessible once the ```oc cluster up``` command has completed.  It can be accessed at <http://ocp-host:8443/console> with user: developer and password: developer.  As the ansible script progresses, a helloworld-msa project will appear. 
 
