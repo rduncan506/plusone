@@ -3,7 +3,7 @@
     "url": "http://localhost:8080/plusone-legacy-application/rest/hello"
   },
   "hola-move-service": {
-    "url": "http://hola-helloworld-msa.192.168.223.43.xip.io/api/hola",
+    "url": "http://hola-helloworld-msa.192.168.223.43.xip.io/api/hola"
   },
   "hola-legacy-service": {
     "url": "http://localhost:8080/plusone-legacy-application/rest/hola"
@@ -12,7 +12,7 @@
     "url": "http://bonjour-helloworld-msa.192.168.223.43.xip.io/api/bonjour"
   },
   "ola-service": {
-    "url": "http://ola-helloworld-msa.192.168.223.43.xip.io/api/ola",
+    "url": "http://ola-helloworld-msa.192.168.223.43.xip.io/api/ola"
   }
 }
 
