@@ -38,28 +38,23 @@ Clone the github repository
 
 	$ git clone https://github.com/rduncan506/plusone.git
 
-## Option 1 - From Binaries
-To make it easier and remove dependencies on build tools, all source has been compiled/packaged and has been downloaded when cloning the github repository above.
-
-### Step 1 - Configure Installation
+## Configure Demo
 To install both the legacy and OpenShift portions of the demo, some information is required.  First edit the hosts files and set the IP addresses for the hosts to install the two applications.
 
 ```bassh
-$ vi <plusoneROOT\>/ansible/plusonedemo/hosts
+$ vi <plusoneROOT>/ansible/plusonedemo/hosts
 ```
 
-> [legacy-servers]
-
-> ***192.168.223.43***
-
-> [ocp-servers]
-
+> [legacy-servers]  
+  ***192.168.223.43***
+>
+  [ocp-servers]  
 > ***192.168.223.43***
 
 Now modify the following to match your environment
 
 ```bassh
-$ vi <plusoneROOT\>/ansible/plusonedemo/group_vars/user-vars.yaml
+$ vi <plusoneROOT>/ansible/plusonedemo/group_vars/user-vars.yaml
 ```
 
 >  \# A temporary directory for any required temporary downloads
@@ -84,17 +79,20 @@ $ vi <plusoneROOT\>/ansible/plusonedemo/group_vars/user-vars.yaml
 >  \# Automatically install the MSA services  
 >  install_msa_application: ***true***
 
-### Step 2 - Run Ansible to Install the Legacy Application
+## Option 1 - From Binaries
+To make it easier and remove dependencies on build tools, all source has been compiled/packaged and has been downloaded when cloning the github repository above.
+
+### Step 1 - Run Ansible to Install the Legacy Application
 In order to make the install quick and easy, the following Ansible Playbook can be executed to get the legacy application up and running.
 
 The Playbook will perform the following
 
 1. Check if Wildfly exists at the location given above, if so, step 2 is skipped.
-2. Download and install Wildfly
-3. Deploy the precompiled war file downloaded as part of the git clone above (<plusoneROOT\>/plusonelegacy/bin/plusone-legacy-application.war)
+2. Download and install Wildfly (<http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.zip>)
+3. Deploy the precompiled war file downloaded as part of the git clone above (<plusoneROOT>/plusonelegacy/bin/plusone-legacy-application.war)
 
 ```bassh
-	$ cd <plusoneROOT\>/ansible/plusonedemo
+	$ cd <plusoneROOT>/ansible/plusonedemo
 	$ ansible-playbook -i hosts legacy.yml
 ```
 
@@ -102,7 +100,7 @@ Once the script has completed the Legacy Application will be accessible via <htt
 
 Also, you may access the Wildfly admin console via <http://legacy-host:9990> and follow the instructions there to add users to enable the console.
 
-### Step 3 - Run Ansible to Install OpenShift Services
+### Step 2 - Run Ansible to Install OpenShift Services
 In this demo, we will be using ```oc cluster up``` <https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#overview>.
 
 **Please read <https://github.com/openshift/origin/blob/master/docs/cluster_up_down.md#linux> and ensure all steps prior to the ```oc cluster up``` command have been performed**
@@ -112,7 +110,7 @@ The Playbook will perform the following tasks
 1. Check if the ```oc``` exists in the previously configured location, if so, step to is skipped
 2. Download and install the ```oc``` command
 3. Download and start the OpenShift docker image
-4. Deploy 3 pre-built MSA services from <plusoneROOT\>/plusonemsa/* using the Dockerfiles and binaries contained within
+4. Deploy 3 pre-built MSA services from <plusoneROOT>/plusonemsa/* using the Dockerfiles and binaries contained within
 5. Expose the services so they are accessible
 
 ```bassh
@@ -136,7 +134,7 @@ In addition to the main prerequisites above, the following are required to compi
 With Wildfly or JBoss running, execute the following
 
 ```bassh
-$ cd <plusoneROOT\>/plusonelegacy
+$ cd <plusoneROOT>/plusonelegacy
 $ mvn clean install wildfly:deploy
 ```
 
