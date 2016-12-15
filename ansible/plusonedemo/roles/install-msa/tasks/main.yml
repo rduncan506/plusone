@@ -13,7 +13,7 @@
     remote_src=yes
   when: not p.stat.exists
   
-- name: Install OpenShift Origin with 'oc cluster up'
+- name: Install RedHat OpenShift Container Platform {{ocp_version}} using 'oc cluster up'
   shell: '{{oc_command}} cluster up --host-data-dir={{ocp_data_dir}} --image=registry.access.redhat.com/openshift3/ose --version={{ocp_version}}'
 
 - name: Login in OpenShift
@@ -42,11 +42,13 @@
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
-
+  when: install_msa_application
+  
 # Pause for 20 seconds for the registry to start properly
 - name: Wait a bit for the registry to initialize
   pause:
     seconds: 20
+  when: install_msa_application
 
 - name: Build and Deploy OpenShift images from the sources
   shell: "{{oc_command}} start-build {{ item.name }} --from-dir={{ msa_home }}/{{ item.name }} --follow"
@@ -54,6 +56,7 @@
   tags:
     - openshift
     - build
+  when: install_msa_application
 
 - name: Create OpenShift applications from previously created images
   shell: "{{oc_command}} new-app {{ item.name }} -l app={{ item.name }}"
@@ -63,6 +66,7 @@
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
+  when: install_msa_application
 
 - name: Expose OpenShift applications
   shell: "{{oc_command}} expose service {{ item.name }} --hostname={{ item.name }}-{{ project_name }}.{{ domain }}"
@@ -72,4 +76,5 @@
   changed_when: "'exists' not in command_result.stderr"
   tags:
     - openshift
+  when: install_msa_application
 
