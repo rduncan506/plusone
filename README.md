@@ -9,7 +9,7 @@ In order to achieve this, we will first install Wildfly/JBoss and deploy a simpl
 
 ![Legacy Application](./plusonelegacy/src/main/webapp/images/graph1.png  "Legacy Application")
 
-Once the legacy application is up and running, we will introduce new services implemented as Java services and Bonjour services.  These new services will be deployed in an OpenShift and integrated them in to the front end of the existing legacy application as shown below.
+Once the legacy application is up and running, we will introduce new services implemented as Java services and Bonjour services.  These new services are taken from the OpenShift MSA Demo <https://github.com/redhat-helloworld-msa> and will be deployed in an OpenShift. Once deployed, these services will be integrated in to the front end of the existing legacy application as shown below.
 
 ![Hybrid Application](./plusonelegacy/src/main/webapp/images/graph2.png  "Hybrid Application")
 
@@ -63,31 +63,25 @@ $ vi <plusoneROOT\>/ansible/plusonedemo/group_vars/user-vars.yaml
 ```
 
 >  \# A temporary directory for any required temporary downloads
->  \# Must be a directory with read/write permissions
->
+>  \# Must be a directory with read/write permissions  
 >  tmp_dir: ***/tmp***
 >
 >  \# The location of the cloned PlusOne github repository
->  \# Must be a directory with read/write permissions
->
+>  \# Must be a directory with read/write permissions  
 >  plusone_home: ***/home/user/development/plusone***
 >
 >  \# The location to install wildfly
->  \# Must be a directory with read/write permissions
->
+>  \# Must be a directory with read/write permissions  
 >  wildfly_home: ***/opt/testwildfly***
 >  
->  \# Automatically install the legacy application
->  
+>  \# Automatically install the legacy application  
 >  install_legacy_application: ***true***
 >
 >  \# The location to install the OpenShift Client tools (oc)
->  \# Must be a directory with read/write permissions
->
+>  \# Must be a directory with read/write permission  
 >  oc_install: ***/opt/testopenshift***
 >  
->  \# Automatically install the MSA services
->  
+>  \# Automatically install the MSA services  
 >  install_msa_application: ***true***
 
 ### Step 2 - Run Ansible to Install the Legacy Application
@@ -184,7 +178,46 @@ $ cd bonjour/
 $ oc new-build --binary --name=bonjour -l app=bonjour
 $ npm install; oc start-build bonjour --from-dir=. --follow
 $ oc new-app bonjour -l app=bonjour
-$ oc expose service bonjour```
+$ oc expose service bonjour
+```
+## Running through the Demo
+
+<http://localhost:8080/plusone-legacy-application/services.json>
+
+```bassh
+$ vi <wildfly_home>/wildfly-10.0.0.Final/welcome-content/services.json
+```
+
+>{  
+  "hello-service": {  
+    "url": "http://localhost:8080/plusone-legacy-application/rest/hello"  
+  },  
+  "hola-move-service": {  
+    "url": "http://hola-helloworld-msa.192.168.223.43.xip.io/api/hola"  
+  },  
+  "hola-legacy-service": {  
+    "url": "http://localhost:8080/plusone-legacy-application/rest/hola"  
+  },  
+  "bonjour-service": {  
+    "url": "http://bonjour-helloworld-msa.192.168.223.43.xip.io/api/bonjour"  
+  },  
+  "ola-service": {  
+    "url": "http://ola-helloworld-msa.192.168.223.43.xip.io/api/ola"  
+  }  
+>}
+
+
+### Legacy Application
+
+<http://localhost:8080/plusone-legacy-application/index-legacy.html>
+
+### Hybrid Application
+
+<http://localhost:8080/plusone-legacy-application/index-hybrid.html>
+
+### Migrating
+
+<http://localhost:8080/plusone-legacy-application/index-move.html>
 
 ## Troubleshooting
 
