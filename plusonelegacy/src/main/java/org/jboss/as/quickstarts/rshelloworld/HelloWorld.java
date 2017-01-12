@@ -37,11 +37,23 @@ public class HelloWorld {
     @Inject
     HelloService helloService;
 
+    String myHostname = "Not Found";
+
+
+    public HelloWorld(){
+        try {
+            myHostname = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            myHostname = "Error";
+        }
+    }
+
     @GET
     @Path("/hello")
     @Produces({ "text/plain" })
     public String getHelloWorldText() {
-        return helloService.createHelloMessage("from " + System.getenv().getOrDefault("HOSTNAME", "unknown"));
+        //return helloService.createHelloMessage("from " + System.getenv().getOrDefault("HOSTNAME", "unknown"));
+        return helloService.createHelloMessage("from " + myHostname );
     }
 
 }

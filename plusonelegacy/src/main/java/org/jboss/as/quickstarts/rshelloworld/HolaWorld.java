@@ -37,11 +37,21 @@ public class HolaWorld {
     @Inject
     HolaService holaService;
 
+    String myHostname = "Not Found";
+
+    public HolaWorld(){
+        try {
+            this.myHostname = InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            this.myHostname = "Error";
+        }
+    }
+
     @GET
     @Path("/hola")
     @Produces({ "text/plain" })
     public String getHolaWorldText() {
-        return holaService.createHolaMessage("de " + System.getenv().getOrDefault("HOSTNAME", "unknown"));
+        return holaService.createHolaMessage("de " + myHostname);
     }
 
 }
