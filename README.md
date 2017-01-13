@@ -1,4 +1,4 @@
-# PlusOne Demo
+# OpenShift Next Demo
 ***
 
 ## Purpose
