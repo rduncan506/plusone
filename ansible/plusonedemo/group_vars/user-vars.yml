@@ -4,14 +4,14 @@
 
     # The location of the cloned PlusOne github repository
     # Must be a directory with read/write permissions
-    plusone_home: "/home/rduncan/redhat/projects/plusonenew/plusone"
+    plusone_home: "/home/rduncan/plusone-20170111/plusone"
 
     # The location to install wildfly
     # Must be a directory with read/write permissions
     wildfly_home: /opt/testwildfly
 
     # Automatically install the legacy application
-    install_legacy_application: true
+    install_legacy_application: false
     
     # The location to install the OpenShift Client tools (oc)
     # Must be a directory with read/write permissions

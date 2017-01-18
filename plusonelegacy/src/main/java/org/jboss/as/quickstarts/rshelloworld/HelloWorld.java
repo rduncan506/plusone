@@ -52,7 +52,6 @@ public class HelloWorld {
     @Path("/hello")
     @Produces({ "text/plain" })
     public String getHelloWorldText() {
-        //return helloService.createHelloMessage("from " + System.getenv().getOrDefault("HOSTNAME", "unknown"));
         return helloService.createHelloMessage("from " + myHostname );
     }
 

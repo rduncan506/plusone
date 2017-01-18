@@ -22,8 +22,9 @@
           deploy_path={{wildfly_deploy_path}} 
           state=present
   when: install_legacy_application
-  
-- copy:
-    src: "{{plusone_home}}/plusonelegacy/src/main/webapp/services.json"
-    dest: "{{wildfly_home}}/{{wildfly_base_filename}}/welcome-content"
-    mode: 0644
+
+- name: populate template
+  template:
+    src: services.json
+    dest: "{{wildfly_home}}/{{wildfly_base_filename}}/welcome-content/services.json"
+
