@@ -2,7 +2,11 @@
 # This playbook deploys a simple standalone JBoss server. 
 
 - hosts: legacy-servers  
-  remote_user: rduncan 
+#
+#  Uncomment and replace <user> below with remote user if running on a remote server
+#
+#  remote_user: <user> 
+#
   become: no
 
   vars_files:
